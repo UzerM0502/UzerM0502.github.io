@@ -28,10 +28,9 @@ tags: [TAG]     # TAG names should always be lowercase
 ---
 ```
 
-# Example: Refactoring a function
-- def greet(name):
--     print(f"Hello, {name}")
-+ def greet(name, greeting="Hello"):
-+     print(f"{greeting}, {name}")
-
-greet("Alice")
+```diff
+function addTwoNumbers (num1, num2) {
+-  return 1 + 2
++  return num1 + num2
+}
+```
