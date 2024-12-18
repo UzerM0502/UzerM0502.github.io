@@ -27,3 +27,11 @@ categories: [TOP_CATEGORIE, SUB_CATEGORIE]
 tags: [TAG]     # TAG names should always be lowercase
 ---
 ```
+
+# Example: Refactoring a function
+- def greet(name):
+-     print(f"Hello, {name}")
++ def greet(name, greeting="Hello"):
++     print(f"{greeting}, {name}")
+
+greet("Alice")
