@@ -1,18 +1,15 @@
 ---
-title: Text and Typography
-description: Examples of text, typography, math equations, diagrams, flowcharts, pictures, videos, and more.
-author: cotes
+title: Code Quality Tools in Python
+description: Covers Pylint, Black and Flake8 
+author: Uzer
 date: 2024-12-21 11:33:00 +0800
-categories: [Blogging, Demo]
+categories: [Coding, Python]
 tags: [typography]
 pin: true 
 math: true
 mermaid: true
 ---
-# Code Quality Blog
-
-## Code Quality Tools in Python
-
+## Introduction
 Our team is currently working on a legacy app which delivers fully automated front-to-back data quality, monitoring, and assurance of trade-level data with the help of machine learning algorithms. The current architecture of the app is unscalable, and the business requires us to widen the scope of the app by onboarding new risk management systems and expanding geographical coverage. We are therefore refactoring the code to meet business requirements and thus use code quality tools. This short post explains some popular Python code quality tools, what benefits they provide, and examples of use.
 
 ### What Do We Mean by Good Code Quality?
@@ -31,7 +28,7 @@ The tools we are covering are:
 
 Pylint is a static code analyzer that doesn’t require you to actually run your code. It helps with bug detection and adherence to standards like PEP8. The main problem Pylint solves is bad “code smells,” meaning aspects of code that indicate potential errors, such as unused imports which are not ideal as they can cause naming conflicts and clutter your code.
 
-### Example: Before Using Pylint
+### Before Using Pylint
 
 ```python
 import math
@@ -48,22 +45,11 @@ def CircleArea(Radius):
 Run the following in the terminal:
 ```bash
 (base) uzer@MacBook ~ % pylint pylint_before.py
-************* Module pylint_before
-pylint_before.py:7:0: C0303: Trailing whitespace (trailing-whitespace)
-pylint_before.py:11:0: C0303: Trailing whitespace (trailing-whitespace)
-pylint_before.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-pylint_before.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
-pylint_before.py:4:0: C0103: Function name "CircleArea" doesn't conform to snake_case naming style (invalid-name)
-pylint_before.py:4:15: C0103: Argument name "Radius" doesn't conform to snake_case naming style (invalid-name)
-pylint_before.py:5:4: W0612: Unused variable 'pi' (unused-variable)
-pylint_before.py:6:4: W0612: Unused variable 'diameter' (unused-variable)
-pylint_before.py:2:0: W0611: Unused import random (unused-import)
-
 ------------------------------------------------------------------
-Your code has been rated at 0.00/10 (previous run: 0.62/10, -0.62)
+Your code has been rated at 0.00/10 
 ```
 
-## After 
+### After Using Pylint
 ```python
 """
 Module to calculate areas of different shapes with validation.
@@ -108,7 +94,7 @@ To format this code using Black, we can simply run the following command in the 
 ```bash
 python -m black \file_before.py
 ```
-## Example of Black in Action
+
 ### Before:
 ```python 
 def greet(name):
@@ -130,7 +116,6 @@ Flake8 does not automatically modify the code, as it is a static code analyser. 
 ```bash
 python -m flakes \file_before.py --max-complexity=1
 ```
-## Example of the Complexity Checker in Action
 ### Before:
 
 ```python
@@ -141,6 +126,12 @@ def post_comment(self):
         comment = "Build had issues"
     elif self.failed:
         comment = "Build failed"
+    
+    if self.success:
+        self.post(comment, type="success")
+    else:
+        
+        self.post(comment, type="error")
 ```
 ### After:
 
@@ -151,6 +142,15 @@ def get_comment(self):
         "warning": "Build had issues",
         "failed": "Build failed",
     }
+
+    return comments[self.type]
+
+def post_comment(self,comment):
+    self.post(comment, type=self.type)
 ```
+
+## Conclusion 
+
+Using these tools in conjunction effectively is important to make the most out of them. Firtsly, using Black to automatically format your code as it enforces consistent formatting and is therefore ideal for standardising your code base. Then using Flake8 to check adherence to PEP8 standards while checking for overly complex fucntions. Finally running pylint for a deeper dive into the code whcih is more team specific as it has a dedicated config which varies from team to team.
 
 
