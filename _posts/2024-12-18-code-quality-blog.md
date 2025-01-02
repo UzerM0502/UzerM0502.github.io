@@ -34,6 +34,7 @@ Pylint is a static code analyzer that doesn’t require you to actually run your
 ### Example: Before Using Pylint
 
 ```python
+
 import math
 import random  # Unused import
 
