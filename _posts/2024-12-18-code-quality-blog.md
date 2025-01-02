@@ -9,28 +9,41 @@ pin: true
 math: true
 mermaid: true
 ---
-This tutorial will guide you how to write a post in the _Chirpy_ template, and it's worth reading even if you've used Jekyll before, as many features require specific variables to be set.
+# Code Quality Blog
 
-## Naming and Path
+## Code Quality Tools in Python
 
-Create a new file named `YYYY-MM-DD-TITLE.EXTENSION`{: .filepath} and put it in the `_posts`{: .filepath} of the root directory. Please note that the `EXTENSION`{: .filepath} must be one of `md`{: .filepath} and `markdown`{: .filepath}. If you want to save time of creating files, please consider using the plugin [`Jekyll-Compose`](https://github.com/jekyll/jekyll-compose) to accomplish this.
+Our team is currently working on a legacy app which delivers fully automated front-to-back data quality, monitoring, and assurance of trade-level data with the help of machine learning algorithms. The current architecture of the app is unscalable, and the business requires us to widen the scope of the app by onboarding new risk management systems and expanding geographical coverage. We are therefore refactoring the code to meet business requirements and thus use code quality tools. This short post explains some popular Python code quality tools, what benefits they provide, and examples of use.
 
-## Front Matter
+### What Do We Mean by Good Code Quality?
 
-Basically, you need to fill the [Front Matter](https://jekyllrb.com/docs/front-matter/) as below at the top of the post:
+In short, it means meeting the project specification and requirements, but more generally, having readability, maintainability, and adherence to standards such as PEP8 for Python. PEP8 is a document that provides guidance on how to best write Python code.
 
-```yaml
+The tools we are covering are:
+
+1. **Pylint** - Simple code analysis  
+2. **Black** - Code style formatting  
+3. **Flake8** - Standard for Python  
+
 ---
-title: TITLE
-date: YYYY-MM-DD HH:MM:SS +/-TTTT
-categories: [TOP_CATEGORIE, SUB_CATEGORIE]
-tags: [TAG]     # TAG names should always be lowercase
----
-```
 
-```diff
-function addTwoNumbers (num1, num2) {
--  return 1 + 2
-+  return num1 + num2
-}
-```
+## Pylint
+
+Pylint is a static code analyzer that doesn’t require you to actually run your code. It helps with bug detection and adherence to standards like PEP8. The main problem Pylint solves is bad “code smells,” meaning aspects of code that indicate potential errors, such as unused imports which are not ideal as they can cause naming conflicts and clutter your code.
+
+### Example: Before Using Pylint
+
+```python
+import math
+import random  # Unused import
+
+
+def CircleArea(Radius):
+    pi = math.pi  # Unused variable
+    diameter = 2 * Radius  # Unused variable
+    
+    if Radius <= 0:
+        print("Invalid radius!")  # Bad practice to print errors directly
+        return None
+    
+    return 3.14159 * Radius * Radius
