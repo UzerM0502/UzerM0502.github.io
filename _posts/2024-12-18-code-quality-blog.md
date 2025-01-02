@@ -45,6 +45,60 @@ def CircleArea(Radius):
     return 3.14159 * Radius * Radius
 ```
 
+Run the following in the terminal:
+```bash
+(base) uzer@MacBook ~ % pylint pylint_before.py
+************* Module pylint_before
+pylint_before.py:7:0: C0303: Trailing whitespace (trailing-whitespace)
+pylint_before.py:11:0: C0303: Trailing whitespace (trailing-whitespace)
+pylint_before.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+pylint_before.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
+pylint_before.py:4:0: C0103: Function name "CircleArea" doesn't conform to snake_case naming style (invalid-name)
+pylint_before.py:4:15: C0103: Argument name "Radius" doesn't conform to snake_case naming style (invalid-name)
+pylint_before.py:5:4: W0612: Unused variable 'pi' (unused-variable)
+pylint_before.py:6:4: W0612: Unused variable 'diameter' (unused-variable)
+pylint_before.py:2:0: W0611: Unused import random (unused-import)
+
+------------------------------------------------------------------
+Your code has been rated at 0.00/10 (previous run: 0.62/10, -0.62)
+```
+
+## After 
+```python
+"""
+Module to calculate areas of different shapes with validation.
+"""
+
+
+def calculate_circle_area(radius: float) -> float:
+    """
+    Calculate the area of a circle.
+
+    Args:
+        radius (float): The radius of the circle.
+
+    Returns:
+        float: The area of the circle.
+
+    Raises:
+        ValueError: If radius is not positive.
+    """
+    if radius <= 0:
+        raise ValueError("Radius must be a positive number.")
+    
+    return math.pi * radius**2
+```
+
+Running the same command in the terminal gives:
+```bash
+(base) uzer@MacBook ~ % pylint pylint_after.py
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+```
+
+The code snippet is now free of of code smells and has docstrings to help signify what the function does. Pylint also gives a final score of 10/10
+
 ## Black
 
 Black is a Python code formatter that allows teams of developers to have a uniform and consistent coding style across the codebase. The main benefit is to eliminate inconsistent code formatting provided by other tools, which have endless customization. This emphasis on uniformity can aid in readability and end disputes over formatting. 
