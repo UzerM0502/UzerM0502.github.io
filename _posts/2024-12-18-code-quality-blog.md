@@ -95,12 +95,12 @@ To format this code using Black, we can simply run the following command in the 
 python -m black \file_before.py
 ```
 
-### Before:
+### Before using Black
 ```python 
 def greet(name):
     print("Hello, " + name + "!")
 ```
-### After:
+### After using Black
 ```python 
 def greet(name):
     print(f"Hello, {name}!")
@@ -116,7 +116,7 @@ Flake8 does not automatically modify the code, as it is a static code analyser. 
 ```bash
 python -m flakes \file_before.py --max-complexity=1
 ```
-### Before:
+### Before using Flake8
 
 ```python
 def post_comment(self):
@@ -133,7 +133,7 @@ def post_comment(self):
         
         self.post(comment, type="error")
 ```
-### After:
+### After using Flake8
 
 ```python
 def get_comment(self):
