@@ -151,6 +151,6 @@ def post_comment(self,comment):
 
 ## Conclusion 
 
-Using these tools in conjunction effectively is important to make the most out of them. Firtsly, using Black to automatically format your code as it enforces consistent formatting and is therefore ideal for standardising your code base. Then using Flake8 to check adherence to PEP8 standards while checking for overly complex fucntions. Finally running pylint for a deeper dive into the code whcih is more team specific as it has a dedicated config which varies from team to team.
+Using these tools in conjunction effectively is important to make the most out of them. Firtsly, using Black to automatically format your code as it enforces consistent formatting and is therefore ideal for standardising your code base. Then using Flake8 to check adherence to PEP8 standards while checking for overly complex fucntions. Finally running pylint for a deeper dive into the code which is more team specific as it has a dedicated config which varies from team to team.
 
 
