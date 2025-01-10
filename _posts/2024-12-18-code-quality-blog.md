@@ -5,7 +5,7 @@ author: Uzer
 date: 2024-12-21 11:33:00 +0800
 categories: [Coding, Python]
 tags: [typography]
-pin: true 
+pin: false 
 math: true
 mermaid: true
 ---
