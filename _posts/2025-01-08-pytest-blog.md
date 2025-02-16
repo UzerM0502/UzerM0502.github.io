@@ -55,7 +55,7 @@ python manage.py migrate
 Also for our case it may be useful to have a visualisation of the tables in the database theerefore I downloaded the SQLite extension on vs code.
 
 ### Sidenote on migrations
-think of migrations as a version control system for your database schema. makemigrations is responsible for packaging up your model (tables) changes into individual migration files - analogous to commits - and migrate is responsible for applying those to your database.
+think of migrations as a version control system for your database schema. ```makemigrations``` is responsible for packaging up your model (tables) changes into individual migration files - analogous to commits - and ```migrate``` is responsible for applying those to your database.
 
 # Introduction to Fixrures and Markers 
 
@@ -73,9 +73,9 @@ Fixtures in pytest are functions that run before tests to set up necessary data 
 
 Markers allow selective test execution, improving efficiency for large test suites. Common markers (in this guide) include:
 
-@pytest.mark.skip – Skips a test unconditionally.
+```@pytest.mark.skip``` – Skips a test unconditionally.
 
-@pytest.mark.django_db – Grants access to the Django database for tests requiring it.
+```@pytest.mark.django_db``` – Grants access to the Django database for tests requiring it.
 
 # Examples
 
@@ -103,8 +103,8 @@ def test_example2(fixture_1):
     num = fixture_1
     assert num == 1    
 ```
-After importing pytest we set our setup our first fixture with the decorator @pytest.fixture(scope='session'). This allows us to use the fixture_1 function as an input to our tests - in this case it will inject our case with 1 (as it ends with return 1). 
-The scope = 'session' paramter in our fixture means the fixture is setup once per test, meaning that this fixture is dhared across all test functions. This can be beneficial for testing as we only need to setup and teardown the fixture once oer SESSION making it more effecient. The default scope is function which is fine for most test cases. 
+After importing pytest we set our setup our first fixture with the decorator ```@pytest.fixture(scope='session')```. This allows us to use the ```fixture_1``` function as an input to our tests - in this case it will inject our case with 1 (as it ends with return 1). 
+The ```scope = 'session'``` paramter in our fixture means the fixture is setup once per test, meaning that this fixture is dhared across all test functions. This can be beneficial for testing as we only need to setup and teardown the fixture once oer SESSION making it more effecient. The default scope is function which is fine for most test cases. 
 
 This tests outputs the following:
 
@@ -131,11 +131,11 @@ run-test-example2
 =============================================== 2 passed in 0.10s ================================================
 ```
 
-We can see the fixture is only ran once as "run-fixture-1" was output only once. Note: I used pytest -rP to run the test because it includes the print statements in the terminal output.
+We can see the fixture is only ran once as "run-fixture-1" was printed only once. Note: I used ```pytest -rP``` to run the test because it includes the print statements in the terminal output.
 
 ### Managing Fixtures with conftest.py
 
-The conftest.py file is a centralized place to store reusable fixtures, making them available across the entire test suite without needing explicit imports. Remember the fixture_1 we used in the previous exmaple? We can move this to our conftest.py and have the same results and we will do this for all fixtures in the future. Note the conftest.py is stored in the parent folder of the tests.
+The conftest.py file is a centralized place to store reusable fixtures, making them available across the entire test suite without needing explicit imports. Remember the ```fixture_1``` we used in the previous exmaple? We can move this to our conftest.py and have the same results and we will do this for all fixtures in the future. Note the conftest.py is stored in the parent folder of the tests.
 
 ## Lets look at some basic pytest examples with django models 
 
@@ -171,17 +171,18 @@ from django.contrib.auth.models import User
 
 this line import the default Users table that django creates and uses it as input to the table  
 
-we then mark the user_1 function with the decorator @python.fixture showing that it is a fixture ready to be used as a input to our test. This user_1 function takes in a db which is required and allows us to connect to the database where we will access the User model etc. (in django a model is just a table)
+we then mark the user_1 function with the decorator ``` @python.fixture``` showing that it is a fixture ready to be used as a input to our test. This ``` user_1 ``` function takes in a db which is required and allows us to connect to the database where we will access the ```User```model etc. (in django a model is just a table)
 
-This db fixture is important as it allows us to test the database in a controlled environment and effeciently handles setup and tear down of the databse - meaning it doesnt effect the other test allowing us ot run tests in isolation. 
+This ```db``` fixture is important as it allows us to test the database in a controlled environment and effeciently handles setup and tear down of the databse - meaning it doesnt effect the other test allowing us to run tests in isolation. 
 
-@pytest.mark.django_db: a decorator marks the test function to use the database. This is necessary for tests that interact with the database.
-test_set_check_password: a function takes the user_1 fixture as an argument, which provides the user instance created by the fixture.
+```@pytest.mark.django_db```: a decorator marks the test function to use the database. This is necessary for tests that interact with the database.
+
+```test_set_check_password```: a function takes the user_1 fixture as an argument, which provides the user instance created by the fixture.
 
 #### Inside the test function:
 
-user.set_password('new_password'): sets a new password for the user.
-assert user.check_password('new_password') == True: Asserts that the new password is correctly set by checking if the check_password method returns True for the new password.
+```user.set_password('new_password')```: sets a new password for the user.
+```assert user.check_password('new_password') == True```: Asserts that the new password is correctly set by checking if the check_password method returns True for the new password.
 
 In short, the test sets a new password for the user and verifies that the password has been correctly set and therefore ensures that the password setting capability of the Django User model is working as expected
 
