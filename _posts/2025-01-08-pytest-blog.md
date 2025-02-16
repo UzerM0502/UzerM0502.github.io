@@ -40,7 +40,7 @@ python_functions = test_*
 ```
 You may need run the following in the terminal 
 
-```bash
+```bashe
 # setting required environment variables
 export DJANGO_SETTINGS_MODULE={your_app_name}.settings
 ```
@@ -137,7 +137,7 @@ We can see the fixture is only ran once as "run-fixture-1" was output only once.
 
 The conftest.py file is a centralized place to store reusable fixtures, making them available across the entire test suite without needing explicit imports. Remember the fixture_1 we used in the previous exmaple? We can move this to our conftest.py and have the same results and we will do this for all fixtures in the future. Note the conftest.py is stored in the parent folder of the tests.
 
-## Lets look at some basic pytest examples with django
+## Lets look at some basic pytest examples with django models 
 
 ```python
 import pytest
@@ -163,9 +163,11 @@ def user_1(db):
     user = User.objects.create_user('test_user')
     return user
 ```
-This code has the test for setting and then testing whether a newly set password is correct. Firstly we import all the neccessary modules 
+This code has the test for setting and then testing whether a newly set password is correct. Firstly we import all the neccessary modules:
 
+```python
 from django.contrib.auth.models import User
+```
 
 this line import the default Users table that django creates and uses it as input to the table  
 
@@ -176,7 +178,7 @@ This db fixture is important as it allows us to test the database in a controlle
 @pytest.mark.django_db: a decorator marks the test function to use the database. This is necessary for tests that interact with the database.
 test_set_check_password: a function takes the user_1 fixture as an argument, which provides the user instance created by the fixture.
 
-Inside the test function:
+#### Inside the test function:
 
 user.set_password('new_password'): sets a new password for the user.
 assert user.check_password('new_password') == True: Asserts that the new password is correctly set by checking if the check_password method returns True for the new password.
