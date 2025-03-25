@@ -40,7 +40,7 @@ python_functions = test_*
 ```
 You may need run the following in the terminal 
 
-```bashe
+```bash
 # setting required environment variables
 export DJANGO_SETTINGS_MODULE={your_app_name}.settings
 ```
