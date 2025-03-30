@@ -1,6 +1,6 @@
 ---
 title: Functional Programming in Python and the Multiprocessing Module
-description: 
+description: short overview of functional programming techniques in python with a case study on how to use it with the multiprocessing tool in python 
 author: Uzer
 date: 2025-03-25 11:33:00 +0800
 categories: [Coding, Python, Parallelism]
@@ -87,7 +87,7 @@ here is a line of what the generated CLF looks like:
 
 To process CLF logs efficiently, we break the task into smaller steps:
 
-Step 1: Reading Log Files
+### Step 1: Reading Log Files
 Use efficient file reading techniques like gzip.open() to handle compressed logs. In our case we can use a simple “with open …” statement in python which we will enclose in a function and it will yield the log files line by line. 
 
 ```python
@@ -99,7 +99,7 @@ def read_log_file(log_path: Path) -> Iterator[str]:
 
 ```
 
-Step 2: Converting Logs into Named Tuples
+### Step 2: Converting Logs into Named Tuples
 
 Named tuples provide an immutable data structure, ensuring safe concurrent processing. Named Tuples allow us to extract data from complex structures like the Apache CLF. The idea behind Named tuples is to create a class that is an immutable tuple with named attributes. Named Tuples are useful in functional programming as it can improve readability of the code by accessing values using descriptive fields rather than indexing elements in the tuple which usually do not provide context about the data we are extracting. Here is a simple example of named tuples so we can understand how it is used in the Apache CLF analyser. 
 
@@ -187,13 +187,13 @@ class Access(NamedTuple):
 
 The Access class creates various fileds for the log entry as well as the create method which creates the access class by parsing the raw string of the log. 
 
-Step 3: Extracting Additional Fields
+### Step 3: Extracting Additional Fields
 Parsing and filtering specific fields for deeper analysis.
 
-Step 4: Filtering Unnecessary Paths
+### Step 4: Filtering Unnecessary Paths
 Excluding irrelevant files and directories to reduce processing time.
 
-Step 5: Identifying Books in Paths
+### Step 5: Identifying Books in Paths
 Filtering logs to extract specific patterns based on file paths.
 
 Our target code will look something like this 
