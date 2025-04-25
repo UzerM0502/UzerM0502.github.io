@@ -1,9 +1,9 @@
 ---
-title: Functional Programming in Python and the Multiprocessing Module
-description: short overview of functional programming techniques in python with a case study on how to use it with the multiprocessing tool in python 
+title: Test-Driven Refactoring Migrating a Pandas Application to PySpark
+description: How to safely refactor pandas to pyspark for big data application 
 author: Uzer
-date: 2025-03-25 11:33:00 +0800
-categories: [Coding, Python, Parallelism]
+date: 2025-04-25 11:33:00 +0800
+categories: [Coding, Python, Big Data]
 tags: [typography]
 pin: false 
 math: true
@@ -168,27 +168,4 @@ class DataProcessor:
 ```
 
 
-
-
-
-6. Maintaining Parity Between Pandas and PySpark
-•	Strategy for keeping behavior consistent across both implementations.
-•	Running both sets of tests and keeping confidence high with each change.
-7. Modular and Functional Programming Mindset
-•	How this helped with readability, testability, and reusability.
-•	Benefits of this approach especially in distributed computing.
-8. Challenges Faced
-•	Interconnected methods in other classes – realizing the depth of refactor required.
-•	How deep coupling in OO design can increase the blast radius of changes.
-9. What I’d Do Differently Next Time
-Here are some solid suggestions you could reflect on:
-•	Better upfront dependency mapping: use static analysis or call graphs to map out all method dependencies before diving into refactoring.
-•	Start with functional decomposition: refactor legacy code into pure functions first, even before converting to PySpark.
-•	Introduce interfaces/abstractions: design interface boundaries for Pandas vs Spark early on, so you can swap implementations without touching logic.
-•	Smaller PRs/checkpoints: if this was under version control, aim for smaller commits with clear before/after diffs.
-•	Use data contracts: formalize expected schemas or outputs at each step using tools like Pydantic, or simply strict schema tests.
-•	Improve test portability: design tests to run in both local and distributed environments with minimal modification.
-10. Conclusion
-•	Share the outcome: was the migration successful? Any performance gains? Was the team more confident making changes?
-•	Reflect on what made TDD a powerful ally in such a risky refactor.
 
