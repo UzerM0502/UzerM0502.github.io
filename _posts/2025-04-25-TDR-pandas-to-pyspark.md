@@ -130,9 +130,11 @@ def test_merge_with_products_matches_snapshot():
 Our refactored application was to run in databricks so I decided to my refactoring in the notebook environment. Also notebooks allow for experimentation with inputs and outputs as well as easy DataFrame visualisation. Referring back to our example – to go from pandas to Pyspark we would need to isolate the function (which we did by making it static) then start swapping out the pandas syntax for the approprtiate one in pysaprk:
 
 
-•	Replace pd.merge with join.
-•	Use PySpark’s withColumn, to_date, and date_format functions.
-•	Return a DataFrame transformation that works lazily in Spark.
+- Replace pd.merge with join.
+
+- Use PySpark’s withColumn, to_date, and date_format functions.
+
+- Return a DataFrame transformation that works lazily in Spark.
 
 We get:
 
