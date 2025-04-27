@@ -35,15 +35,7 @@ In this blog we will be looking at Test-Driven REFACTORING (TDR) which is slight
 
 
 
-
-
-
-
-
 # Creating a Safety Net: Testing Legacy Code
-•	Walk through how you created capture tests for each method.
-•	Storing intermediate results using pickle.
-•	Ensuring test coverage of current functionality before touching anything.
 
 I captured the output of the methods by running .to_pickle at each point of interest. This would be in my case after the method was run, therefore capturing the output of the method. Ensuring granular test coverage of the legacy code is vital as it will allow me a safety net to make changes to the code in the future. To create tests we would have to set the internal state of the object manually, to the that which is of before the method is run, then run the method and extract the result. Finally we will assert the DataFrame with that of the captured pickle. Here is a short example:
 
@@ -133,11 +125,7 @@ def test_merge_with_products_matches_snapshot():
 
 ```
 
-
 # Incremental Refactoring into PySpark
-•	How you isolated functions and swapped out Pandas logic for PySpark logic.
-•	Running the code in Databricks and why that choice was made.
-•	How you managed testing for PySpark by comparing results with Pandas versions using .toPandas().
 
 Our refactored application was to run in databricks so I decided to my refactoring in the notebook environment. Also notebooks allow for experimentation with inputs and outputs as well as easy DataFrame visualisation. Referring back to our example – to go from pandas to Pyspark we would need to isolate the function (which we did by making it static) then start swapping out the pandas syntax for the approprtiate one in pysaprk:
 
@@ -146,7 +134,7 @@ Our refactored application was to run in databricks so I decided to my refactori
 •	Use PySpark’s withColumn, to_date, and date_format functions.
 •	Return a DataFrame transformation that works lazily in Spark.
 
-We get 
+We get:
 
 ```python 
 
@@ -167,5 +155,49 @@ class DataProcessor:
 
 ```
 
-commit
+# Maintaining Parity Between Pandas and Pyspark
+Since we changed our source code to Pyspark we need to change the implementation of our unit tests too so that we can make sure our code is still working as expected. This can be a simple change as reading the pickle file into pandas then into spark DataFrame and passing it into our new test, then calling our refactored (Pyspark) method then converting output back to pandas DataFrame to assert our result and expected DataFrame. This is best shown in an example:
+
+```python
+
+from pyspark.sql import SparkSession
+import pandas as pd
+import pytest
+from my_module import DataProcessor  # Adjust this to your real module
+
+spark = SparkSession.builder.getOrCreate()
+
+def test_merge_with_products_matches_snapshot():
+    # Load the pickle files as Pandas DataFrames
+    df1_pandas = pd.read_pickle("tests/data/after_merge_customer_orders.pkl")
+    expected_pandas = pd.read_pickle("tests/data/after_merge_with_products.pkl")
+
+    # Convert Pandas to Spark DataFrames
+    df1_spark = spark.createDataFrame(df1_pandas)
+    products_spark = spark.createDataFrame(products)  # Assuming `products` is already available as a pandas DataFrame
+
+    # Call the PySpark refactored method
+    result_spark = DataProcessor.merge_with_products(df1_spark, products_spark)
+
+    # Convert result back to Pandas for comparison
+    result_pandas = result_spark.toPandas()
+
+    # Reset index if necessary to avoid mismatches
+    result_pandas = result_pandas.reset_index(drop=True)
+    expected_pandas = expected_pandas.reset_index(drop=True)
+
+    # Assert
+    pd.testing.assert_frame_equal(result_pandas, expected_pandas)
+
+```
+
+You could also build some sort of helper function like ```read_pickle_as_spark(path)``` to help deal with schema errors or empty dataframes etc. 
+
+Now that you have all your refactored tests in place and your legacy code is modularised and dependencies are cut, you can safely refactor into Pyspark API to scale your application to bigger data!
+
+# Some Challenges I faced
+
+When I began refactoring, I was unaware of the interconnected nature of the source code I was dealing and this meant I had to refactor methods in other classes to be compatible with the code changes I made. This deep coupling of the software and particularly in OO design increased the radius and scope of the work I had to do and therefore the amount of time I spent on this was a little longer than originally planned 
+
+
 
